@@ -1,0 +1,13 @@
+open System
+
+let rec fact n =
+    match n with
+    | 0 | 1 -> 1
+    | n -> n * fact (n - 1)
+
+[<EntryPoint>]
+let main argv =
+    let line = Console.ReadLine()
+    let num = line |> int
+    let res = fact num
+    printfn "%i" res
