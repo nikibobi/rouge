@@ -23,11 +23,7 @@ module Rouge
 
         return if empty?
 
-        yield "#{selector} {"
-        rendered_rules.each do |rule|
-          yield "  #{rule};"
-        end
-        yield "}"
+        yield "#{selector} { #{rendered_rules.to_a.join("; ")} }"
       end
 
       def rendered_rules(&b)
@@ -139,15 +135,11 @@ module Rouge
 
   class CSSTheme < Theme
     def initialize(opts={})
-      @scope = opts[:scope] || '.highlight'
+      @scope = opts[:scope]
     end
 
     def render(&b)
       return enum_for(:render).to_a.join("\n") unless b
-
-      # shared styles for tableized line numbers
-      yield "#{@scope} table td { padding: 5px; }"
-      yield "#{@scope} table pre { margin: 0; }"
 
       styles.each do |tok, style|
         style.render(css_selector(tok), &b)
@@ -172,9 +164,9 @@ module Rouge
     end
 
     def single_css_selector(token)
-      return @scope if token == Text
+      return @scope || "" if token == Text
 
-      "#{@scope} .#{token.shortname}"
+      if @scope then "#{@scope} " else "" end << ".#{token.shortname}"
     end
 
     # yield all of the tokens that should be styled the same
