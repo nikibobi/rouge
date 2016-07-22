@@ -111,7 +111,10 @@ module Rouge
         rule /[A-Z][\w\']*(?=\s*\.)/, Name::Namespace
         rule /[A-Z][\w\']*/, Name, :pop!
         rule /[a-z_][\w\']*/, Name, :pop!
+<<<<<<< HEAD
         rule(//) { pop! }
+=======
+>>>>>>> 1c73cf861f69ce1c4e4d83f902b058819d94a6fa
       end
 
       state :comment do
